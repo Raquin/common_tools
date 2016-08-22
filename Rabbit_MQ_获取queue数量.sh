@@ -1,6 +1,6 @@
 #!/bin/bash
-# author nanyansi
-# time 2016-08-19
+# Author nanyansi
+# Time 2016-08-19
 for virtual_host in `rabbitmqctl list_vhosts | grep -v 'Listing queues ...' | grep -v '\/'`
 do
     for queue_name in `rabbitmqctl list_queues -p $virtual_host name |grep -v 'Listing queues ...'`
