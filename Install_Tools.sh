@@ -10,10 +10,10 @@ function install ()
 	{
 		# Install Tengine
 		cd $cd_dir
-		wget http://mail.yeshj.com:8021/pcre-8.36.tar.gz
-		wget http://mail.yeshj.com:8021/libunwind-1.1.tar.gz
-		wget http://mail.yeshj.com:8021/gperftools-2.3.tar.gz
-		wget http://mail.yeshj.com:8021/ngx_openresty-1.9.3.1.tar.gz
+		wget http://tools.yeshj.com/pcre-8.36.tar.gz
+		wget http://tools.yeshj.com/libunwind-1.1.tar.gz
+		wget http://tools.yeshj.com/gperftools-2.3.tar.gz
+		wget http://tools.yeshj.com/ngx_openresty-1.9.3.1.tar.gz
 		for pages in "gcc gcc-c++ make autoconf libtool-ltdl-devel openssh-clients  freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel bison patch unzip libmcrypt-devel libmhash-devel ncurses-devel sudo bzip2 mlocate flex lrzsz sysstat lsof setuptool system-config-network-tui system-config-firewall-tui ntp libaio-devel wget ntp vim openssh-clients glibc.i686 perl-devel perl-ExtUtils-Embed lua lua-static lua-devel"
 		do
 			yum -y install $pages

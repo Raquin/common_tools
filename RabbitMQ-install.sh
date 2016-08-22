@@ -4,9 +4,9 @@ cd_dir="$(pwd)"
 function Install_RabbitMQ_Base_Plugins ()
 	{
 		cd $cd_dir
-		wget http://mail.yeshj.com:8021/epel-release-6-8.noarch.rpm
-		wget http://mail.yeshj.com:8021/rabbitmq-server-3.5.2-1.noarch.rpm
-		wget http://mail.yeshj.com:8021/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+		wget http://tools.yeshj.com/epel-release-6-8.noarch.rpm
+		wget http://tools.yeshj.com/rabbitmq-server-3.5.2-1.noarch.rpm
+		wget http://tools.yeshj.com/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 		if [[ -s epel-release-6-8.noarch.rpm ]]; then
 			rpm -ivh epel-release-6-8.noarch.rpm
 			if [[ -s rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm ]]; then
