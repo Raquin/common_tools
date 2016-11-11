@@ -3,7 +3,7 @@
 ip=`ifconfig -a | grep inet  | grep -v inet6 | grep -v 127.0.0.1 | awk '{print $2}' | tr -d "addr:"`
 echo "即将安装RabbitMQ服务，你确定要安装吗?"
 echo "yes: 确定安装"
-echo "no: 退出安装"
+echo "no:  退出安装"
 read -p "你的选择是 (yes or no): " Choice
 case $Choice in
 	yes ) 
@@ -35,8 +35,4 @@ case $Choice in
 		echo "你选择错误，已退出"
 		;;
 esac
-#rpm -ivh esl-erlang-19.0-1.x86_64.rpm --force --nodeps
-
-
-
 #for soft_name in esl-erlang-19.0-1.x86_64.rpm rabbitmq-server-3.6.5-1.noarch.rpm; do wget -P /tmp http://tools.yeshj.com/$soft_name;rpm -ivh /tmp/$soft_name --force --nodeps;done
