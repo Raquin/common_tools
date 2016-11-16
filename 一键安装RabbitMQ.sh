@@ -1,6 +1,7 @@
 #!/bin/bash
 #ip=`ifconfig|grep -v 127.0.0.1 | sed -n '/inet addr/s/^[^:]*:\([0-9.]\{7,15\}\) .*/\1/p'`
 ip=`ifconfig -a | grep inet  | grep -v inet6 | grep -v 127.0.0.1 | awk '{print $2}' | tr -d "addr:"`
+dir=$(pwd)
 echo "即将安装RabbitMQ服务，你确定要安装吗?"
 echo "yes: 确定安装"
 echo "no:  退出安装"
@@ -12,10 +13,10 @@ case $Choice in
 		read -p "是否启用RabbitMQ Web UI 插件: (yes or no)" Choice
 		echo "你选择安装，请等待......"
 		for soft_name in esl-erlang-19.0-1.x86_64.rpm rabbitmq-server-3.6.5-1.noarch.rpm; do
-			wget -P /tmp http://tools.yeshj.com/$soft_name
-			rpm -ivh $soft_name --force --nodeps
+			wget -P $dir http://tools.yeshj.com/$soft_name
+			rpm -ivh $dir/$soft_name --force --nodeps
 			/etc/init.d/rabbitmq-server start
-			rm -rf /tmp/$soft_name
+			rm -rf $dir/$soft_name
 		done
 		if [[ "$Choice" = "yes" ]]; then
 			rabbitmq-plugins enable rabbitmq_management
