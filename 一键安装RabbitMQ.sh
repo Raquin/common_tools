@@ -1,5 +1,5 @@
 #!/bin/bash
-#ip=`ifconfig|grep -v 127.0.0.1 | sed -n '/inet addr/s/^[^:]*:\([0-9.]\{7,15\}\) .*/\1/p'`
+#ip=`ifconfig|grep -v 127.0.0.1 | sed -n '/inet addr/s/^[^:]*:\([0-9.]\{7\r15\}\) .*/\1/p'`
 ip=`ifconfig -a | grep inet  | grep -v inet6 | grep -v 127.0.0.1 | awk '{print $2}' | tr -d "addr:"`
 dir=$(pwd)
 echo "即将安装RabbitMQ服务，你确定要安装吗?"
