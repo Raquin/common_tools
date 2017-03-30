@@ -1,9 +1,9 @@
 #!/bin/bash
 # Auth: NanYanSi
-domain=coupon.soa.yeshj.com
+domain=abc.com #服务名称
 data_dir=/data/$domain
-project=hj-coupon-api
-profiles=production
+project=ABC #Jar包名称
+profiles=production #
 APP_VM_OPS="-server -Xms4g -Xmx4g -Xmn1g -XX:MaxMetaspaceSize=128m -Xss256k -XX:ParallelGCThreads=4 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+DisableExplicitGC -Djava.awt.headless=true -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -Xloggc:/home/logs/$domain/gc.log"
 pid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
 
