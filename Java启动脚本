@@ -1,44 +1,55 @@
 #!/bin/bash
 # Auth: NanYanSi
-domain=abc.com #服务名称
+domain=metadata.hjapi.com_v2 #服务名称
 data_dir=/data/$domain
-project=ABC #Jar包名称
+project=metadata-api #Jar包名称
 profiles=production #
-APP_VM_OPS="-server -Xms4g -Xmx4g -Xmn1g -Dfile.encoding=UTF-8 -Dsun.jun.encoding=UTF-8 -XX:MaxMetaspaceSize=128m -Xss256k -XX:ParallelGCThreads=4 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+DisableExplicitGC -Djava.awt.headless=true -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -Xloggc:/home/logs/$domain/gc.log"
+APP_VM_OPS="-server -Xms1g -Xmx1g -Xmn512m -Dfile.encoding=UTF-8 -Dsun.jun.encoding=UTF-8 -XX:MaxMetaspaceSize=128m -Xss256k -XX:ParallelGCThreads=4 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+DisableExplicitGC -Djava.awt.headless=true -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError -Xloggc:/home/logs/$domain/gc.log"
 pid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
 
 start () {
         cd $data_dir
-        UILD_ID=dontKillMe java $APP_VM_OPS -Dspring.config.location=$data_dir/config/  -Dspring.profiles.active=$profiles -jar $project.jar  2&>1 > dev/null &
+        java $APP_VM_OPS -Dspring.config.location=$data_dir  -Dspring.profiles.active=$profiles -jar $project.jar > /dev/null 2&>1 &
 }
 stop () {
         kill -9 $pid
 }
 
+start_status () {
+        if [[ $pid -eq 0 ]];then
+                start
+                newpid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
+                if [[ $newpid -ge 0 ]];then
+                        echo -e "\033[32mStarting $domain\033[0m\r"
+                        echo -e "\t\033[34m$domain pid:\033[0m\033[32m$newpid\033[0m \033[34mfor java starting\033[0m\t\033[0m\033[32m[ OK ]\033[0m\r"
+                else
+                        echo -e "\t\033[34m$domain for java failed\033[0m\t\033[31m [ failed ]\033[0m\r"
+                fi
+        else
+                echo -e "\t\033[32m$domain pid:\033[0m\033[32m$pid\033[0m \033[32mfor java already running......\033[0m\r"
+        fi
+}
+stop_status () {
+        stop
+        echo -e "\t\033[31m$domain pid:\033[0m\033[32m$pid\033[0m \033[31mfor java stoppping......\033[0m\r"
+}
+reload_status () {
+        stop
+        start
+        reloadpid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
+        echo -e "\t\033[34m$domain pid:\033[0m\033[32m$reloadpid\033[0m \033[34mfor java reload......\033[0m\r"
+}
+
+
 case $1 in
         start )
-                if [[ $pid -eq 0 ]];then
-                        start
-                        newpid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
-                        if [[ $newpid -ge 0 ]];then
-                                echo -e "\033[32mStarting $domain\033[0m\r"
-                                echo -e "\t\033[34mddd pid:\033[0m\033[32m$newpid\033[0m \033[34mfor java starting\033[0m\t\033[0m\033[32m[ OK ]\033[0m\r"
-                        else
-                                echo -e "\t\033[34m$domain for java failed\033[0m\t\033[31m [ failed ]\033[0m\r"
-                        fi
-                else
-                        echo -e "\t\033[32m$domain pid:\033[0m\033[32m$pid\033[0m \033[32mfor java already running......\033[0m\r"
-                fi
+                start_status
                 ;;
         stop )
-                stop
-                echo -e "\t\033[31m$domain pid:\033[0m\033[32m$pid\033[0m \033[31mfor java stoppping......\033[0m\r"
+                stop_status
                 ;;
         reload )
-                stop
-                start
-                reloadpid=`ps -ef | grep java  |grep $project.jar | awk '{print $2}'`
-                echo -e "\t\033[34m$domain pid:\033[0m\033[32m$reloadpid\033[0m \033[34mfor java reload......\033[0m\r"
+                reload_status
                 ;;
         *)
         echo -e "\033[31mUser stop|start|reload\033[0m"
