@@ -4,13 +4,13 @@ dirbin=/opt/openresty/nginx/sbin/
 daemon=nginx
 config=/opt/openresty/nginx/conf/conf/
 echo	"选择更改WAF机房位置:"
-echo	"南汇机房:(请使用:nanhui)"
-echo	"外高桥机房:(请使用:waigaoqiao)"
+echo	"机房1:(请使用:机房1)"
+echo	"机房2:(请使用:机房2)"
 read address
 case $address in
 	nanhui)
-		echo "你选择的机房位置是:南汇机房"
-		echo "你选择更改WAF服务器的地址:"
+		echo "你选择的机房位置是:机房1"
+		echo "你选择更改防护墙服务器的地址:"
 		for waflist in 192.168.25.127 192.168.25.172
 		do
 			echo $waflist
@@ -68,9 +68,9 @@ else
 fi
 	;;
 	waigaoqiao)
-		echo "你选择的机房位置是:外高桥机房"
+		echo "你选择的机房位置是:机房2"
         echo "你要更改的站点如下:"
-for weblist in `find $config -type f -name "*.hujiang.com" -print | awk -F \/ '{print $7}'`
+for weblist in `find $config -type f -name "*.xyz" -print | awk -F \/ '{print $7}'`
 do
         echo $weblist
 done
