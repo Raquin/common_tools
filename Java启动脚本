@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auth: NanYanSi
-domain=metadata.hjapi.com_v2 #服务名称
+domain=Domainname #服务名称
 data_dir=/data/$domain
 project=metadata-api #Jar包名称
 profiles=production #
