@@ -3,7 +3,7 @@ dir=/opt/openresty/nginx/
 dirbin=/opt/openresty/nginx/sbin/
 daemon=nginx
 config=/opt/openresty/nginx/conf/conf/
-echo	"选择更改WAF机房位置:"
+echo	"选择更改防护墙机房位置:"
 echo	"机房1:(请使用:机房1)"
 echo	"机房2:(请使用:机房2)"
 read address
