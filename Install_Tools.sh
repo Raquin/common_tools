@@ -83,70 +83,9 @@ function install ()
 		> /opt/openresty/nginx/conf/nginx.conf
 		if [ ! -d /opt/openresty/nginx/conf/conf ];then
 			mkdir -p /opt/openresty/nginx/conf/conf
-			if [ -s waf2.tar.gz ];then
-				tar xf waf2.tar.gz -C /opt/openresty/nginx/conf
-				cat > /opt/openresty/nginx/conf/nginx.conf << EOF
-					user nobody;
-					worker_processes  8;
-					pid /opt/openresty/nginx/logs/nginx.pid;
-					error_log /opt/openresty/nginx/logs/error.log error;
-					worker_rlimit_nofile 65535;
-					events {
-						use epoll;
-						worker_connections  65535;
-					}
-					http {
-						include       mime.types;
-						default_type  text/html;
-						log_format  custom_log '$time_local $http_x_forwarded_for $remote_addr $server_addr $status $body_bytes_sent $request_time $request_method $scheme://$host$uri $query_string $http_cookie $http_referer $http_user_agent';
-						server_names_hash_bucket_size 256;
-						client_header_buffer_size     32k;
-						large_client_header_buffers   4 128k;
-						client_max_body_size          8m;
-						client_body_buffer_size       64k;
-						proxy_connect_timeout         600;
-						proxy_read_timeout            600;
-						proxy_send_timeout            600;
-						proxy_buffer_size             32k;
-						proxy_buffers                 4 32k;
-						proxy_busy_buffers_size       64k;
-						proxy_temp_file_write_size    1024m;
-						proxy_ignore_client_abort     on;
-						sendfile           on;
-						tcp_nopush         on;
-						keepalive_timeout  0;
-						tcp_nodelay        on;
-						gzip               off;
-						gzip_min_length    1k;
-						gzip_buffers       4 16k;
-						gzip_http_version  1.0;
-						gzip_proxied       any;
-						gzip_comp_level    2;
-						gzip_types         text/plain application/x-javascript text/css application/xml;
-						gzip_vary          on;
-						lua_package_path "/opt/openresty/nginx/conf/waf2/?.lua;;";
-						init_by_lua_file  /opt/openresty/nginx/conf/waf2/init.lua;
-						ignore_invalid_headers off;
-						lua_shared_dict xss 1m;
-						lua_shared_dict sql 1m;
-						lua_shared_dict url 1m;
-						lua_shared_dict ua 10m;
-						lua_shared_dict ban 10m;
-						lua_shared_dict count 10m;
-						lua_need_request_body on;
-						lua_shared_dict protected_urls 10m;
-						lua_shared_dict whitelist_urls 10m;
-						include	conf/*.hujiang.com;
-					}
-				}
-EOF
-			else
-				exit 1
-			fi
 		else
 			exit 1
 		fi
-		#ln -s /opt/openresty/nginx/conf/waf2/libinjection.so /opt/openresty/lualib/
 	}
 	if [[ $Installpage = "nginx" ]]; then
 		install
